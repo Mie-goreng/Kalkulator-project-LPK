@@ -20,8 +20,8 @@ ar_data = {
 # Judul aplikasi
 st.title("Kalkulator Berat Molekul")
 
-st.write("Masukkan rumus senyawa kimia (contoh: H2O, NaCl, C6H12O6)")
-st.write("Gunakan format linear (contoh: Mg(OH)2 → MgO2H2)")
+st.write("Masukkan rumus senyawa kimia (contoh: H2O, NaCl, HBr)")
+st.write("Gunakan format seperti ini (contoh: Mg(OH)2 → MgO2H2)")
 
 # Fungsi kalkulasi
 def hitung_mr(rumus):
