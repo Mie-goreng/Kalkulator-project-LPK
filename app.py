@@ -18,7 +18,7 @@ ar_data = {
 st.set_page_config(page_title="Kalkulator Berat Molekul", page_icon="🧪")
 
 st.title("🧪 Kalkulator Berat Molekul Senyawa")
-st.markdown("Masukkan rumus senyawa (misal: `H2O`, `HCl`, `NaOH`) lalu klik hitung. Untuk senyawa seperti `Mg(OH)2 tulis menjadi MgO2H2`.")
+st.markdown("Masukkan rumus senyawa (misal: `H2O`, `HCl`, `NaOH`) lalu klik hitung. Untuk senyawa seperti `Mg(OH)2` tulis menjadi `MgO2H2`.")
 
 # Fungsi hitung berat molekul
 def hitung_mr(rumus):
