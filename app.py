@@ -1,11 +1,10 @@
 import streamlit as st
 import re
 
-# ========== Konfigurasi Halaman ==========
-st.set_page_config(page_title="Kalkulator Berat Molekul", page_icon="🧪", layout="centered")
+# Konfigurasi halaman
+st.set_page_config(page_title="Kalkulator Berat Molekul", page_icon="🧪")
 
-# ========== Data Massa Atom Relatif (Ar) ==========
-# Mengacu pada 2007 Atomic IUPAC oleh Wieser & Berglund
+# Data Ar berdasarkan IUPAC 2007 (versi sederhana)
 ar_data = {
     "H": 1, "C": 12, "O": 16, "N": 14, "Cl": 35.45, "Br": 79.904, "B": 10.811,
     "Cr": 51.996, "Co": 58.933, "Cu": 63.546, "F": 18.998, "He": 4.002, "I": 126.904,
@@ -18,47 +17,33 @@ ar_data = {
     "Cs": 132.905, "Ce": 140.116, "Bi": 208.980, "Ir": 192.217
 }
 
-# ========== Header / Tampilan Depan ==========
-st.image("assets/logo.png", width=120, caption="Program Studi Kimia Analitik", use_column_width=False)  # opsional
-st.title("🧪 Kalkulator Berat Molekul Senyawa")
-st.markdown("### Versi Ar: IUPAC 2007 – oleh Michael E. Wieser & Michael Berglund")
+# Judul aplikasi
+st.title("Kalkulator Berat Molekul")
 
-st.markdown("""
-Aplikasi ini membantu menghitung berat molekul relatif (**Mr**) suatu senyawa kimia berdasarkan rumus kimia yang dimasukkan pengguna.
+st.write("Masukkan rumus senyawa kimia (contoh: H2O, NaCl, C6H12O6)")
+st.write("Gunakan format linear (contoh: Mg(OH)2 → MgO2H2)")
 
-✅ **Cocok untuk:** Mahasiswa, dosen, analis laboratorium  
-📗 **Referensi Ar:** Data resmi dari *IUPAC 2007*
-
-> ✍️ **Contoh Input:**  
-> `H2O`, `C6H12O6`, `NaCl`, `HNO3`  
-> Untuk senyawa dengan tanda kurung seperti `Mg(OH)2`, tulis sebagai `MgO2H2`
-""")
-
-st.divider()
-
-# ========== Fungsi Perhitungan Mr ==========
+# Fungsi kalkulasi
 def hitung_mr(rumus):
     pola = r'([A-Z][a-z]?)(\d*)'
     hasil = re.findall(pola, rumus)
-    total_mr = 0.0
+    total = 0.0
     for unsur, jumlah in hasil:
         jumlah = int(jumlah) if jumlah else 1
         if unsur in ar_data:
-            total_mr += ar_data[unsur] * jumlah
+            total += ar_data[unsur] * jumlah
         else:
-            st.error(f"Unsur '{unsur}' belum tersedia dalam data Ar kami.")
+            st.error(f"Unsur '{unsur}' tidak ditemukan dalam data.")
             return None
-    return total_mr
+    return total
 
-# ========== Input Pengguna ==========
-st.subheader("🔬 Masukkan Rumus Senyawa")
-rumus = st.text_input("Contoh: H2O, NaCl, C6H12O6", value="H2O")
+# Input dan tombol
+rumus = st.text_input("Rumus Senyawa", "H2O")
+if st.button("Hitung"):
+    hasil = hitung_mr(rumus)
+    if hasil is not None:
+        st.success(f"Mr dari {rumus} adalah {hasil:.2f} g/mol")
 
-if st.button("Hitung Berat Molekul"):
-    mr = hitung_mr(rumus)
-    if mr:
-        st.success(f"💡 Berat molekul (Mr) dari **{rumus}** adalah **{mr:.2f} g/mol**")
-
-# ========== Footer ==========
+# Footer
 st.markdown("---")
-st.markdown("📘 *© 2025 Kalkulator Berat Molekul – Kelompok 6 Kimia Analitik*")
+st.caption("© 2025 Kelompok 6 - Kalkulator BM Project")
